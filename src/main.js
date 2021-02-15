@@ -24,7 +24,7 @@ class WebauthzToken {
     // 'client_id' is required
     async generateToken({ client_id, type, ...info }) {
         
-        // the token value is 96 bytes
+        // the token value is 96 bytes before encoding
         const token_buffer = randomBuffer(96);
         const token_base64_url = token_buffer.toString('base64').replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, ""); // url-safe base64 variant; see https://tools.ietf.org/html/rfc4648#section-5
 
@@ -34,7 +34,7 @@ class WebauthzToken {
         const token_hash_buffer = sha384.digest();
         const token_hash_base64_url = token_hash_buffer.toString('base64').replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, ""); // url-safe base64 variant
 
-        // we use client_id as a namespace to minimize the chance of collision; the token space is PER CLIENT
+        // use client_id as a namespace to minimize the chance of collision; the token space is PER TYPE, PER CLIENT
         const token = [type, client_id, token_base64_url].join(this.separator);
         const index = [type, client_id, token_hash_base64_url].join(this.separator);
         const record = { type, client_id, ...info, token_buffer_length: token_buffer.length };
