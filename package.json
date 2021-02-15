@@ -1,6 +1,6 @@
 {
   "name": "@webauthz/sdk-token-core-node-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "SDK for resource or authorization servers to manage access to a resource via Webauthz",
   "main": "dist/main.umd.js",
   "module": "src/main",
